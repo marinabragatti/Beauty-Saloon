@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionOverflowButtonStyle">@style/MenuEmpresa</item>
+        <item name="actionBarTheme">@style/MyApp.ActionBarTheme</item>
+    </style>
+
+    <style name="MenuEmpresa" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <!-- THIS is where you can color the three dots menu icon! -->
+        <item name="android:tint">#ffffff</item>
+    </style>
+
+    <style name="MyApp.ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!-- THIS is where you can color the arrow to go back to the previous activity! -->
+        <item name="colorControlNormal">#ffffff</item>
+    </style>
+
+</resources>

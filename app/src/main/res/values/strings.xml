@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Beauty Saloon</string>
+    <string name="text1">Descubra os melhores salões</string>
+    <string name="subtext1">Encontre os salões mais bem avaliados próximos a você</string>
+    <string name="text2">Inúmeros serviços e procedimentos oferecidos</string>
+    <string name="subtext2">Faça seu cabelo, unhas, peelings, massagens modeladoras e muito mais</string>
+    <string name="text3">Agende e pague pelo aplicativo</string>
+    <string name="subtext3">Rápido, fácil e seguro</string>
+    <string name="textIntro">Crie sua conta grátis</string>
+    <string name="textLogin">Acesse sua conta</string>
+    <string name="subTextIntro">Junte-se a mais de um milhão de pessoas e comece já</string>
+    <string name="buttonCadastre">Entrar</string>
+    <string name="subTextPossuiConta">Já tenho conta</string>
+    <string name="logar">Login</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="user">Usuário</string>
+    <string name="hairSalon">Empresa</string>
+    <string name="buttonSalvar">Salvar</string>
+</resources>

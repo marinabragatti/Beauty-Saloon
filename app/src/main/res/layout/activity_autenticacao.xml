@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AutenticacaoActivity"
+    android:layout_margin="40dp">
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/main_pic"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
+        android:textColorHint="@color/colorPrimary"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image1"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
+        android:hint="Senha"
+        android:textColorHint="@color/colorPrimary"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        />
+
+    <LinearLayout
+        android:id="@+id/switchLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/switchTypeUser"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/logar"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="end"/>
+
+        <Switch
+            android:id="@+id/accessType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastrar"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/darker_gray"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/switchTypeUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/switchLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonEntrar"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/user"
+            android:layout_margin="5dp"
+            android:gravity="end"
+            android:textColor="@android:color/darker_gray"/>
+
+        <Switch
+            android:id="@+id/userType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/hairSalon"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/darker_gray"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonEntrar"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="70dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/buttonCadastre"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switchTypeUser"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
