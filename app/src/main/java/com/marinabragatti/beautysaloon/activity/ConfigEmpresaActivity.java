@@ -15,14 +15,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.marinabragatti.beautysaloon.R;
 import com.marinabragatti.beautysaloon.helper.ConfigFirebase;
 import com.marinabragatti.beautysaloon.helper.UsuarioFirebase;
 import com.marinabragatti.beautysaloon.model.Empresa;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
@@ -32,6 +40,7 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
     private EditText campoNome, campoEndereco;
     private static final int SELECAO_GALERIA = 200;
     private StorageReference storageReference;
+    private DatabaseReference firebaseRef;
     private String idUserLogado;
     private String urlImagemSelecionada = "";
 
@@ -41,8 +50,9 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config_empresa);
 
         inicializarComponentes();
-        storageReference = ConfigFirebase.getStorageReference();
-        idUserLogado = UsuarioFirebase.getIdUser();
+        storageReference = ConfigFirebase.getStorageReference();//Recupera referência do Storage
+        idUserLogado = UsuarioFirebase.getIdUser();//Recupera user id
+        firebaseRef = ConfigFirebase.getFirebase();//Recupera referência do firebase
 
         //Configuração Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -59,6 +69,9 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Recuperar os dados na Configuração da Empresa
+        recuperarDadosEmpresa();
     }
 
     //Verifica se a imagem foi carregada corretamente e a prepara para salvar
@@ -76,16 +89,19 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
                         break;
                 }
                 if(imagem != null){
+                    //configuração da imagem em Bitmap
                     imageView.setImageBitmap(imagem);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     imagem.compress(Bitmap.CompressFormat.JPEG, 70, baos);
                     byte[] dadosImagem = baos.toByteArray();
 
-                    StorageReference imagemRef = storageReference
+                    //referência para pasta no Storage
+                    final StorageReference imagemRef = storageReference
                             .child("imagens")
                             .child("empresas")
                             .child(idUserLogado + "jpeg");
 
+                    //upload dos bytes da imagem
                     UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -96,11 +112,36 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            urlImagemSelecionada = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
                             Toast.makeText(ConfigEmpresaActivity.this,
                                     "Sucesso ao fazer o upload da imagem", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    //recupera o link de download da imagem
+                    Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()){
+                                throw task.getException();
+                            }
+                            return imagemRef.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if(task.isSuccessful()){
+                                Uri downloadUri = task.getResult();
+
+                                //salva a url retornada no banco de dados
+                                firebaseRef.child("empresas")
+                                        .child(idUserLogado)
+                                        .child("urlImagem")
+                                        .setValue(downloadUri.toString());
+                                urlImagemSelecionada = downloadUri.toString();
+                            }
+                        }
+                    });
+
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -132,6 +173,32 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
 
     public void exibirToast(String texto){
         Toast.makeText(this, texto, Toast.LENGTH_SHORT);
+    }
+
+    public void recuperarDadosEmpresa(){
+        DatabaseReference empresaRef = firebaseRef.child("empresas").child(idUserLogado);//Recupera referência da empresa logada
+        empresaRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
+                    Empresa empresa = dataSnapshot.getValue(Empresa.class);//Recupero o objeto empresa salvo no firebase
+                    campoNome.setText(empresa.getNome());
+                    campoEndereco.setText(empresa.getEndereco());
+                    urlImagemSelecionada = empresa.getUrlImagem();
+                    if(urlImagemSelecionada != ""){
+                        Picasso.get()
+                                .load(urlImagemSelecionada)
+                                .into(imageView);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void inicializarComponentes(){

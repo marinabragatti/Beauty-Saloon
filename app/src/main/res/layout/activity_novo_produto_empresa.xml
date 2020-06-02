@@ -14,4 +14,91 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerServico"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbarEmpresa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image_servico"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/profile_pic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/container"
+            android:layout_margin="20dp"
+            app:civ_border_width="3dp"
+            app:civ_border_color="@color/colorAccent"/>
+
+        <EditText
+            android:id="@+id/nomeServico"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="10dp"
+            android:layout_marginTop="40dp"
+            android:inputType="text"
+            android:hint="Nome do Serviço"
+            android:textColorHint="@color/colorPrimary"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_image_servico"/>
+
+        <EditText
+            android:id="@+id/descricaoServico"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:hint="Descrição"
+            android:textColorHint="@color/colorPrimary"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nomeServico"
+            />
+
+        <com.blackcat.currencyedittext.CurrencyEditText
+            android:id="@+id/valorServico"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:decimal_digits="2"
+            android:ems="10"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:inputType="numberDecimal"
+            android:hint="Valor"
+            android:textColorHint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descricaoServico"/>
+
+        <Button
+            android:id="@+id/buttonSalvarProduto"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/buttonSalvar"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/valorServico"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="salvarNovoProduto"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
