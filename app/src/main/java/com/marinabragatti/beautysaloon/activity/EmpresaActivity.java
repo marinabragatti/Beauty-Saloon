@@ -120,9 +120,8 @@ public class EmpresaActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {//Com dataSnapshot recupero todos os serviços do usuário logado
                 produtoList.clear();
-                for (DataSnapshot dados : dataSnapshot.getChildren())//getChildren percorre cada uma das movimentações com tudo que há dentro dela
+                for (DataSnapshot dados : dataSnapshot.getChildren())//getChildren percorre cada um dos serviços com tudo que há dentro dele
                 {
-                    Log.i("PRODUTOS", "lista dos dados " + dados.getValue());
                     produtoList.add(dados.getValue(Produto.class));
                 }
                 servicosAdapter.notifyDataSetChanged();//notifica o adapter das mudanças na lista
@@ -202,7 +201,7 @@ public class EmpresaActivity extends AppCompatActivity {
         recuperarProdutos();
     }
 
-    @Override //Quando o app não estiver sendo utilizado, o firebase não será chamado, o listener é removido
+    @Override //Quando o app não estiver sendo utilizado, o firebase não será chamado, o com.marinabragatti.beautysaloon.listener é removido
     protected void onStop() {
         super.onStop();
         produtosReferencia.removeEventListener(valueEventListenerProdutos);

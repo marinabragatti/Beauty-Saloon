@@ -75,8 +75,6 @@ public class NovoProdutoEmpresaActivity extends AppCompatActivity {
             }
         });
 
-        //Recuperar os dados na Configuração da Empresa
-        //recuperarDadosEmpresa();
     }
 
     //Verifica se a imagem foi carregada corretamente e a prepara para salvar

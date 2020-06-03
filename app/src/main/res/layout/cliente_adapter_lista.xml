@@ -7,52 +7,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_weight="5"
+            android:src="@drawable/no_image"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:paddingStart="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp">
 
             <TextView
                 android:id="@+id/textNome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nome do Serviço"
-                android:textSize="18sp"
+                android:text="Nome da Empresa"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:padding="5dp"/>
 
             <TextView
-                android:id="@+id/textDescricao"
+                android:id="@+id/textEndereco"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Descrição"
+                android:gravity="end"
+                android:text="Endereço da Empresa"
                 android:textSize="14sp"
                 android:padding="5dp"/>
 
-            <TextView
-                android:id="@+id/textValor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Valor"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
-                android:padding="5dp"/>
-
         </LinearLayout>
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageServico"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_weight="5"
-            android:src="@drawable/no_image"
-            android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
     <include layout="@layout/divisor"/>

@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ServicosAdapter extends RecyclerView.Adapter<ServicosAdapter.MyViewHolder> {
 
     private List<Produto> produtoList;
@@ -61,7 +63,7 @@ public class ServicosAdapter extends RecyclerView.Adapter<ServicosAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder{
         //itens que a view ieá exibir
         TextView nomeServico, descricao, valor;
-        ImageView imgServico;
+        CircleImageView imgServico;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

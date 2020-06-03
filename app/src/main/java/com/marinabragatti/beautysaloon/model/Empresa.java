@@ -3,7 +3,9 @@ package com.marinabragatti.beautysaloon.model;
 import com.google.firebase.database.DatabaseReference;
 import com.marinabragatti.beautysaloon.helper.ConfigFirebase;
 
-public class Empresa {
+import java.io.Serializable;
+
+public class Empresa implements Serializable {
 
     private String idUsuario;
     private String urlImagem;
