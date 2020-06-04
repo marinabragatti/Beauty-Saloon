@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -172,10 +173,10 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
     }
 
     public void exibirToast(String texto){
-        Toast.makeText(this, texto, Toast.LENGTH_SHORT);
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }
 
-    public void recuperarDadosEmpresa(){
+    private void recuperarDadosEmpresa(){
         DatabaseReference empresaRef = firebaseRef.child("empresas").child(idUserLogado);//Recupera referência da empresa logada
         empresaRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -185,7 +186,8 @@ public class ConfigEmpresaActivity extends AppCompatActivity {
                     campoNome.setText(empresa.getNome());
                     campoEndereco.setText(empresa.getEndereco());
                     urlImagemSelecionada = empresa.getUrlImagem();
-                    if(urlImagemSelecionada != ""){
+                    Log.i("IMAGEM URL", "URL DO BANCO" + dataSnapshot.getValue().toString());
+                    if(!urlImagemSelecionada.isEmpty() && urlImagemSelecionada != null){
                         Picasso.get()
                                 .load(urlImagemSelecionada)
                                 .into(imageView);

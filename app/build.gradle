@@ -40,11 +40,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.heinrichreimersoftware:material-intro:2.0.0' //Biblioteca Slider
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'//Material Search View
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0' //Material Search View
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'//CircleImageView
-    implementation 'com.squareup.picasso:picasso:2.71828'
-//Biblioteca Picasso para recuperação de imagens
-    implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
-    implementation 'androidx.cardview:cardview:1.0.0'//Máscara para moeda
+    implementation 'com.squareup.picasso:picasso:2.71828'//Biblioteca Picasso para recuperação de imagens
+    implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'//Máscara para moeda
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.github.d-max:spots-dialog:1.1@aar' //dialog loading
+    implementation 'com.github.clans:fab:1.6.4'//floating action button
 }

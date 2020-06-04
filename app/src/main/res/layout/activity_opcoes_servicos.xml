@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imagemEmpresa"
@@ -37,19 +40,74 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nome da Empresa"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:padding="5dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
+    <include layout="@layout/divisor"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textVerCarrinho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver Carrinho"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/textQuantidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Itens: "
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/textValorCarrinho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valor"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerOpcoesServico"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="15dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/ic_check"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/colorAccent"
+        fab:fab_colorRipple="@color/colorPrimaryDark"
+        fab:fab_label="Comprar"/>
 
 
 </LinearLayout>
