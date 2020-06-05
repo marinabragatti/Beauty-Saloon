@@ -92,6 +92,9 @@ public class EmpresaActivity extends AppCompatActivity {
             case R.id.menuNovoProduto :
                 addNovoProduto();
                 break;
+            case R.id.menuPedidos:
+                visualizarPedidos();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -111,6 +114,10 @@ public class EmpresaActivity extends AppCompatActivity {
 
     private void addNovoProduto(){
         startActivity(new Intent(EmpresaActivity.this, NovoProdutoEmpresaActivity.class));
+    }
+
+    private void visualizarPedidos(){
+        startActivity(new Intent(EmpresaActivity.this, PedidosEmpresaActivity.class));
     }
 
     public void recuperarProdutos() {

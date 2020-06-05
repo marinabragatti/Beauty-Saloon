@@ -8,6 +8,11 @@
         android:icon="@drawable/ic_add_circle"
         app:showAsAction="always"/>
 
+    <item android:title="Serviços Comprados"
+        android:id="@+id/menuPedidos"
+        android:icon="@drawable/ic_assignment"
+        app:showAsAction="always"/>
+
     <item android:title="Configurações"
         android:id="@+id/menuConfig"
         app:showAsAction="never"/>

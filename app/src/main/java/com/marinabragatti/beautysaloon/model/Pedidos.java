@@ -27,7 +27,7 @@ public class Pedidos {
 
         DatabaseReference firebaseRef = ConfigFirebase.getFirebase();
         DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos_user")
+                .child("pedidosUser")
                 .child(idUser)
                 .child(idEmpresa);
         setIdPedido(pedidoRef.push().getKey());//Salvo o id do pedido
@@ -36,9 +36,27 @@ public class Pedidos {
     public void salvar(){
         DatabaseReference firebaseRef = ConfigFirebase.getFirebase();
         DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos_user")
+                .child("pedidosUser")
                 .child(getIdUsuario())
                 .child(getIdEmpresa());
+        pedidoRef.setValue(this);
+    }
+
+    public void removerPedido(){
+        DatabaseReference firebaseRef = ConfigFirebase.getFirebase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("pedidosUser")
+                .child(getIdUsuario())
+                .child(getIdEmpresa());
+        pedidoRef.removeValue();
+    }
+
+    public void confirmar(){
+        DatabaseReference firebaseRef = ConfigFirebase.getFirebase();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("pedidos")
+                .child(getIdEmpresa())
+                .child(getIdPedido());
         pedidoRef.setValue(this);
     }
 

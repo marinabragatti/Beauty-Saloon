@@ -10,11 +10,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,7 @@ import com.marinabragatti.beautysaloon.model.Produto;
 import com.marinabragatti.beautysaloon.model.Usuario;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -42,19 +45,22 @@ public class OpcoesServicosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private CircleImageView imageEmpresa;
-    private TextView nomeEmpresa;
+    private TextView nomeEmpresa, textCarrinhoQtde, textCarrinhoTotal;
+    private FloatingActionButton floatingActionButton;
     private Empresa empresaSelecionada;
     private Pedidos pedidoRecuperado;
     private Usuario usuario;
     private ServicosAdapter servicosAdapter;
     private List<Produto> produtoList = new ArrayList<>();
     private List<ItemPedido> itensCarrinho = new ArrayList<>();
-    private DatabaseReference firebaseRef;
+    private DatabaseReference firebaseRef, produtosReferencia;
     private ValueEventListener valueEventListenerProdutos;
-    private DatabaseReference produtosReferencia;
     private String idEmpresa;
     private AlertDialog dialog;
     private String idUserLogado;
+    private int qtdeCarrinho;
+    private Double totalCarrinho;
+    private int metodoPagto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +75,7 @@ public class OpcoesServicosActivity extends AppCompatActivity {
 
         firebaseRef = ConfigFirebase.getFirebase();
         idUserLogado = UsuarioFirebase.getIdUser();//Recupera user id
-        recyclerView = findViewById(R.id.recyclerOpcoesServico);
-        imageEmpresa = findViewById(R.id.imagemEmpresa);
-        nomeEmpresa = findViewById(R.id.textNome);
+        inicializarComponentes();
 
         //Configurar Adapter
         servicosAdapter = new ServicosAdapter(produtoList, this);
@@ -178,7 +182,40 @@ public class OpcoesServicosActivity extends AppCompatActivity {
     }
 
     private void recuperarPedido(){
-        dialog.dismiss();
+        DatabaseReference pedidosRef = firebaseRef
+                .child("pedidosUser")
+                .child(idUserLogado)
+                .child(idEmpresa);
+
+        pedidosRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                qtdeCarrinho = 0;
+                totalCarrinho = 0.0;
+                itensCarrinho = new ArrayList<>();
+                if(dataSnapshot.getValue() != null){
+                    pedidoRecuperado = dataSnapshot.getValue(Pedidos.class);
+                    itensCarrinho = pedidoRecuperado.getItens();
+
+                    for(ItemPedido itemPedido: itensCarrinho){
+                        int qtde = itemPedido.getQuantidade();
+                        Double preco = itemPedido.getPreco();
+                        qtdeCarrinho += qtde;
+                        totalCarrinho += qtde * preco;
+                    }
+                }
+                DecimalFormat format = new DecimalFormat("0.00");
+                textCarrinhoQtde.setText("Qtde Itens: " + String.valueOf(qtdeCarrinho));
+                textCarrinhoTotal.setText("R$" + format.format(totalCarrinho));
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void confirmarQtde(final int position){
@@ -208,13 +245,14 @@ public class OpcoesServicosActivity extends AppCompatActivity {
                     itensCarrinho.add(itemPedido);
                 }else{
                     for(int i = 0; i<itensCarrinho.size(); i++){
-                        // Verifica se o produto ja existe no carrinho
-                        if( (itensCarrinho.get(i).getIdProduto().equals( produtoSelecionado.getIdProduto() ) )) {
-                            itemPedido.setQuantidade(itemPedido.getQuantidade() + Integer.parseInt(quantidade));
+                        // Verifica se o produto ja existe no carrinho e altera qtde ao inves de add um novo
+                        if(itensCarrinho.get(i).getIdProduto().equals( produtoSelecionado.getIdProduto())) {
+                            itensCarrinho.get(i).setQuantidade(itensCarrinho.get(i).getQuantidade() + Integer.parseInt(quantidade));
+                            verifica = i;
                         }else{
-                            verifica = i+1;
+                            verifica = verifica+1;
                         }
-                    }
+                    }//Se não tiver encontrado produto igual add um novo
                     if(verifica == itensCarrinho.size()){
                         itensCarrinho.add( itemPedido );
                     }
@@ -237,6 +275,48 @@ public class OpcoesServicosActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void confirmarPedido(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Quantidade");
+        CharSequence[] itens = new CharSequence[]{
+                "Dinheiro", "Cartão"
+        };
+        builder.setSingleChoiceItems(itens, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                metodoPagto = which;
+            }
+        });
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                pedidoRecuperado.setMetodoPagto(metodoPagto);
+                pedidoRecuperado.setStatus("confirmado");
+                pedidoRecuperado.confirmar();
+                pedidoRecuperado.removerPedido();
+                pedidoRecuperado = null;
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void inicializarComponentes(){
+        recyclerView = findViewById(R.id.recyclerOpcoesServico);
+        floatingActionButton = findViewById(R.id.fab);
+        imageEmpresa = findViewById(R.id.imagemEmpresa);
+        nomeEmpresa = findViewById(R.id.textNome);
+        textCarrinhoQtde = findViewById(R.id.textQuantidade);
+        textCarrinhoTotal = findViewById(R.id.textValorCarrinho);
     }
 
     @Override //Quando o usuário entrar no app o resumo será chamado no firebase
